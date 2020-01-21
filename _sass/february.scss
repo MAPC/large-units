@@ -1,10 +1,58 @@
+.iframe__content {
+  border: 1px solid red;
+  width: 700px;
+}
+
+svg {
+  border: 1px solid green;
+}
+
+.graph {
+  &__title {
+    font-family: 'skolar-sans-latin';
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+    text-align: center;
+  }
+
+  &__subtitle {
+    font-family: 'skolar-sans-latin';
+    font-size: 1rem;
+    font-weight: 800;
+    margin: 0;
+    text-align: center;
+  }
+}
+
 .tooltip {
   background: #fff;
   border: 0px;
   border-radius: 4px;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,.24);
-  font: 14px sans-serif;
+  font-family: 'Montserrat';
+  font-size: .75rem;
   padding: 12px;
   pointer-events: none;
   position: absolute;
+
+  &__title {
+    font-family: 'Montserrat';
+    font-size: 1rem;
+    font-weight: 800;
+    margin: 0;
+  }
+
+  &__text {
+    font-family: 'Montserrat';
+    font-size: 1rem;
+    font-weight: 300;
+    margin: 0;
+  }
+}
+
+.xaxis__label,
+.yaxis__label {
+  font-size: .75rem;
+  font-family: 'Montserrat';
 }
