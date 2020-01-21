@@ -15,15 +15,29 @@ d3.csv("/assets/data/largeunits-age.csv").then((rawData) => {
     }
   }))
 
-  const colors = ["goldenrod", "gray", "orange", "blue"]
+  const colors = ["#78BE20", "#012169", "#E8BA1C", "#F47B20"]
   
-  const margin = {top: 50, right: 75, bottom: 50, left: 75}
-  , width = 700 - margin.left - margin.right
+  const margin = {top: 50, right: 45, bottom: 50, left: 40}
+  , width = 700
   , height = 420 - margin.top - margin.bottom;
 
   const svg = d3.select(".largeunits_age-frame")
-    .attr("width", width + margin.left + margin.right)
+    .attr("width", width)
     .attr("height", height + margin.top + margin.bottom)
+
+  svg.append("text")
+    .attr('x', '50%')
+    .attr('y', '16')
+    .attr('text-anchor', 'middle')
+    .attr("class", "graph__title")
+    .text("Large Units by Age of Householder")
+
+  svg.append("text")
+    .attr('x', '50%')
+    .attr('y', '36')
+    .attr('text-anchor', 'middle')
+    .attr("class", "graph__subtitle")
+    .text("Inner Core PUMAS, 2012–2016")
 
   const graph = svg.append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
@@ -34,7 +48,7 @@ d3.csv("/assets/data/largeunits-age.csv").then((rawData) => {
     .range([0, width-margin.right])
     .domain(rawData.map((d) => d.type ))
     .round(true)
-    .padding(.65);
+    .padding(.5);
 
   const yScale = d3.scaleLinear()
     .range([height-25, 0])
@@ -50,10 +64,12 @@ d3.csv("/assets/data/largeunits-age.csv").then((rawData) => {
 
 
   graph.selectAll("text")
-  .attr("class", "xaxis__label")
-  .call(wrap, xScale.bandwidth()+40)
+  .attr("class", "xaxis__label");
+
   graph.append("g")
   .call(yAxis)
+  .selectAll("g")
+  .attr("class", "yaxis__label")
 
   graph.selectAll("g.household-type")
     .data(formattedData)
@@ -93,6 +109,8 @@ d3.csv("/assets/data/largeunits-age.csv").then((rawData) => {
     .style("text-anchor", "middle")
     .attr("font-size", "12px")
     .attr("font-weight", "bold");
+
+    addLegend(height, margin)
 })
 
 function tooltipLeft(event, tooltip) {
@@ -112,38 +130,84 @@ function tooltipTop(event, tooltip) {
 }
 
 function displayToolTip(data){
-  return "<span class='tooltip__title'>" + data.type + "</span>"
-  + "<br/>" + (d3.format(".0%")(data.ages15_34)) + " ages 15 - 34"
-  + "<br/>" + (d3.format(".0%")(data.ages35_52)) + " ages 35 - 54"
-  + "<br/>" + (d3.format(".0%")(data.ages55_69)) + " ages 55 - 69"
-  + "<br/>" + (d3.format(".0%")(data.ages70Up)) + " ages 70+"
+  return "<h4 class='tooltip__title'>" + data.type + "</h4>"
+  + "<p class='tooltip__text'>" 
+  + "<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill='#F47B20'/></svg>"
+  + (d3.format(".0%")(data.ages70Up)) + " ages 70+</p>"
+  + "<p class='tooltip__text'>" 
+  + "<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill='#E8BA1C'/></svg>" 
+  + (d3.format(".0%")(data.ages55_69)) + " ages 55 - 69</p>"
+  + "<p class='tooltip__text'>" 
+  + "<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill='#012169'/></svg>"
+  + (d3.format(".0%")(data.ages35_52)) + " ages 35 - 54</p>"
+  + "<p class='tooltip__text'>" 
+  + "<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill='#78BE20'/></svg>"
+  + (d3.format(".0%")(data.ages15_34)) + " ages 15 - 34</p>"
 }
 
-function wrap(text, width) {
-  text.each(function() {
-    var text = d3.select(this),
-        words = text.text().split(/\s+/).reverse(),
-        word,
-        line = [],
-        lineNumber = 0,
-        lineHeight = 1.1, // ems
-        y = text.attr("y"),
-        dy = parseFloat(text.attr("dy")),
-        tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
-    while (word = words.pop()) {
-      line.push(word);
-      tspan.text(line.join(" "));
-      if (tspan.node().getComputedTextLength() > width) {
-        line.pop();
-        tspan.text(line.join(" "));
-        line = [word];
-        tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
-      }
-    }
-  });
-}
+function addLegend(height, margin) {
+  const legend = d3.select('svg')
+  .append('g')
+  .attr('class', 'legend')
+  .style('transform', 'translate(25%, 0)')
 
-function type(d) {
-  d.value = +d.value;
-  return d;
+  const legendItemOne = legend.append('g')
+  .attr('class', 'legend__item')
+
+  legendItemOne.append('rect')
+  .attr('x', 0)
+  .attr('y', height + margin.top + 5)
+  .attr('width', 10)
+  .attr('height', 10)
+  .attr('fill', '#78BE20')
+
+  legendItemOne.append("text")
+  .attr('x', 20)
+  .attr('y', height + margin.top + 14)
+  .text("Ages 15 – 34")
+
+  const legendItemTwo = legend.append('g')
+  .attr('class', 'legend__item')
+
+  legendItemTwo.append('rect')
+  .attr('x', 100)
+  .attr('y', height + margin.top + 5)
+  .attr('width', 10)
+  .attr('height', 10)
+  .attr('fill', '#012169')
+
+  legendItemTwo.append("text")
+  .attr('x', 120)
+  .attr('y', height + margin.top + 14)
+  .text("Ages 35 – 54")
+
+  const legendItemThree = legend.append('g')
+  .attr('class', 'legend__item')
+
+  legendItemThree.append('rect')
+  .attr('x', 200)
+  .attr('y', height + margin.top + 5)
+  .attr('width', 10)
+  .attr('height', 10)
+  .attr('fill', '#E8BA1C')
+
+  legendItemThree.append("text")
+  .attr('x', 220)
+  .attr('y', height + margin.top + 14)
+  .text("Ages 55 – 69")
+
+  const legendItemFour = legend.append('g')
+  .attr('class', 'legend__item')
+
+  legendItemFour.append('rect')
+  .attr('x', 300)
+  .attr('y', height + margin.top + 5)
+  .attr('width', 10)
+  .attr('height', 10)
+  .attr('fill', '#F47B20')
+
+  legendItemFour.append("text")
+  .attr('x', 320)
+  .attr('y', height + margin.top + 14)
+  .text("Ages 70+")
 }

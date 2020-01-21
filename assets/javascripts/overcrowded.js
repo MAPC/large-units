@@ -1,11 +1,25 @@
 d3.csv("/assets/data/overcrowded.csv").then((data) => {
-  const margin = {top: 30, right: 75, bottom: 30, left: 30}
+  const margin = {top: 60, right: 75, bottom: 20, left: 30}
   , width = 700
   , height = 420 - margin.top - margin.bottom;
 
   const svg = d3.select(".overcrowded-frame")
     .attr("width", width)
     .attr("height", height + margin.top + margin.bottom)
+  
+  svg.append("text")
+    .attr('x', '50%')
+    .attr('y', '16')
+    .attr('text-anchor', 'middle')
+    .attr("class", "graph__title")
+    .text("Percent Overcrowded Households")
+
+  svg.append("text")
+    .attr('x', '50%')
+    .attr('y', '36')
+    .attr('text-anchor', 'middle')
+    .attr("class", "graph__subtitle")
+    .text("Inner Core PUMAS, 2012-2016")
 
   const graph = svg.append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
@@ -43,7 +57,7 @@ d3.csv("/assets/data/overcrowded.csv").then((data) => {
   graph.selectAll("bar")
     .data(data)
     .enter().append("rect")
-    .style("fill", "steelblue")
+    .style("fill", "#78BE20")
     .attr("x", function(d) { return xScale(d.household); })
     .attr("width", xScale.bandwidth())
     .attr("y", function(d) { return yScale(d.percentage) - 25; })
@@ -85,7 +99,7 @@ function tooltipLeft(event, tooltip) {
 }
 
 function tooltipTop(event, tooltip) {
-  if (event.pageY > 275) {
+  if (event.pageY > 240) {
     return event.pageY - tooltip.offsetHeight - 10 + "px"
   } else {
     return event.pageY + 10 + "px"

@@ -1,11 +1,25 @@
 d3.csv("/assets/data/estimate_expected.csv").then((formattedData) => {
-  const margin = {top: 50, right: 75, bottom: 50, left: 50}
+  const margin = {top: 75, right: 75, bottom: 20, left: 50}
   , width = 900
   , height = 420 - margin.top - margin.bottom;
 
   const svg = d3.select(".estimate_expected-frame")
     .attr("width", width)
     .attr("height", height + margin.top + margin.bottom)
+
+  svg.append("text")
+    .attr('x', '50%')
+    .attr('y', '16')
+    .attr('text-anchor', 'middle')
+    .attr("class", "graph__title")
+    .text("3+ Bedroom Units by Age of Householder")
+
+  svg.append("text")
+    .attr('x', '50%')
+    .attr('y', '36')
+    .attr('text-anchor', 'middle')
+    .attr("class", "graph__subtitle")
+    .text("2016 Estimate vs. Expected")
 
   const graph = svg.append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
@@ -115,10 +129,10 @@ function tooltipTop(event, tooltip) {
 function displayToolTip(data) {
   return "<h4 class='tooltip__title'>Age range: " + data.type + "</h4>"
   + "<p class='tooltip__text'>"
-  + "<svg width='16' height='12'><circle cx='6' cy='6' r='5' fill='#44aD89'/></svg>"
+  + "<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill='#44aD89'/></svg>"
   + d3.format(",")(data.acs) + " estimated</p>"
   + "<p class='tooltip__text'>"
-  + "<svg width='16' height='12'><circle cx='6' cy='6' r='4' stroke='black' fill='white'/></svg>"
+  + "<svg width='16' height='10'><circle cx='5' cy='5' r='4' stroke='black' fill='white'/></svg>"
   + d3.format(",")(data.expected) + " expected</p>"
 }
 
@@ -126,37 +140,37 @@ function addLegend(height, margin) {
   const legend = d3.select('svg')
   .append('g')
   .attr('class', 'legend')
+  .style('transform', 'translate(20%, 0)')
 
   const legendItemOne = legend.append('g')
   .attr('class', 'legend__item')
 
   legendItemOne.append('rect')
   .attr('x', 0)
-  .attr('y', height + margin.top)
+  .attr('y', height + margin.top + 5)
   .attr('width', 10)
   .attr('height', 10)
   .attr('fill', '#44aD89')
 
   legendItemOne.append("text")
   .attr('x', 20)
-  .attr('y', height + margin.top + 10)
-  .text("2012 - 2016 ACS Estimate")
+  .attr('y', height + margin.top + 14)
+  .text("2012 – 2016 ACS Estimate")
 
   const legendItemTwo = legend.append('g')
   .attr('class', 'legend__item')
 
   legendItemTwo.append('rect')
-  .attr('x', 300)
-  .attr('y', height + margin.top)
+  .attr('x', 200)
+  .attr('y', height + margin.top + 5)
   .attr('width', 10)
   .attr('height', 10)
   .attr('stroke', 'black')
+  .attr('stroke-width', 1)
   .attr('fill', 'white')
 
   legendItemTwo.append("text")
-  .attr('x', 320)
-  .attr('y', height + margin.top + 10)
-  .text("2012 - 2016 ACS Estimate")
-
-
+  .attr('x', 220)
+  .attr('y', height + margin.top + 14)
+  .text("Expected 2012 – 2016 based on 2000 Census Rates by Age")
 }
