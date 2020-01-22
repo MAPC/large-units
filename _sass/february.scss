@@ -1,13 +1,17 @@
 .iframe__content {
-  // border: 1px solid red;
-  width: 700px;
+  border: 1px solid red;
+  // padding: 20px;
+  width: max-content;
 }
 
 svg {
-  // border: 1px solid green;
+  border: 1px solid green;
 }
 
 .graph {
+  &__header {
+    border: 1px solid blue;
+  }
   &__title {
     font-family: 'skolar-sans-latin';
     font-size: 1.25rem;

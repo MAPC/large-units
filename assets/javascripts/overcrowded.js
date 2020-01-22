@@ -1,30 +1,37 @@
 d3.csv("/assets/data/overcrowded.csv").then((data) => {
-  const margin = {top: 60, right: 75, bottom: 20, left: 30}
+  const margin = {top: 60, right: 75, bottom: 25, left: 30}
   , width = 700
-  , height = 420 - margin.top - margin.bottom;
+  , canvasHeight = 420
+  , graphHeight = canvasHeight - margin.top - margin.bottom
+  , xAxisMargin = 25
+  , yAxisMargin = 30;
 
   const svg = d3.select(".overcrowded-frame")
     .attr("width", width)
-    .attr("height", height + margin.top + margin.bottom)
+    .attr("height", canvasHeight)
+
+  const titles = svg.append("g")
+    .attr("class", "graph__header")
+    .attr("height", 50)
   
-  svg.append("text")
+  titles.append("text")
     .attr('x', '50%')
-    .attr('y', '16')
+    .attr('y', '24')
     .attr('text-anchor', 'middle')
     .attr("class", "graph__title")
     .text("Percent Overcrowded Households")
 
-  svg.append("text")
+  titles.append("text")
     .attr('x', '50%')
-    .attr('y', '36')
+    .attr('y', '44')
     .attr('text-anchor', 'middle')
     .attr("class", "graph__subtitle")
     .text("Inner Core PUMAS, 2012-2016")
 
   const graph = svg.append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+    .attr("transform", "translate(" + yAxisMargin + "," + margin.top + ")")
     .attr("class", "graph")
-    .attr("height", height + margin.top + margin.bottom)
+    .attr("height", graphHeight)
 
   const xScale = d3.scaleBand()
     .range([0, width - margin.left])
@@ -33,26 +40,27 @@ d3.csv("/assets/data/overcrowded.csv").then((data) => {
     .padding(.65);
 
   const yScale = d3.scaleLinear()
-    .range([height-25, 0])
+    .range([graphHeight - xAxisMargin, 0])
     .domain([0, .14]);
 
   const xAxis = d3.axisBottom(xScale)
   const yAxis = d3.axisLeft(yScale)
-    .ticks(8, "~%")
+    .ticks(14, "~%")
 
   graph.append("g")
   .call(xAxis)
-  .attr("transform", "translate(0," + (height - 25) + ")")
+  .attr("transform", "translate(0," + (graphHeight - xAxisMargin) + ")")
+  .attr("class", "xaxis")
 
 
   graph.selectAll("text")
   .attr("class", "xaxis__label")
-  .call(wrap, xScale.bandwidth()+40)
+  .call(wrap, xScale.bandwidth() + 40);
 
   graph.append("g")
   .call(yAxis)
   .selectAll("g")
-  .attr("class", "yaxis__label")
+  .attr("class", "yaxis__label");
 
   graph.selectAll("bar")
     .data(data)
@@ -60,8 +68,8 @@ d3.csv("/assets/data/overcrowded.csv").then((data) => {
     .style("fill", "#78BE20")
     .attr("x", function(d) { return xScale(d.household); })
     .attr("width", xScale.bandwidth())
-    .attr("y", function(d) { return yScale(d.percentage) - 25; })
-    .attr("height", function(d) { return height - yScale(d.percentage); })
+    .attr("y", function(d) { return yScale(d.percentage); })
+    .attr("height", function(d) { return graphHeight - yScale(d.percentage) - margin.bottom; })
     .on("mousemove", function(d) {
       tooltip.html(displayToolTip(d))
       tooltip.attr("width", "200")
