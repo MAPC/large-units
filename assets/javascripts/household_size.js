@@ -5,24 +5,28 @@ d3.csv("/assets/data/household_size.csv").then((rawData) => {
 
   const colors = ["#78BE20", "#012169", "#E8BA1C", "#F47B20"]
   
-  const margin = {top: 55, right: 75, bottom: 20, left: 40}
+  const margin = {top: 80, right: 0, bottom: 20, left: 40}
   , width = 700
-  , canvasHeight = 420 - margin.top - margin.bottom;
+  , canvasHeight = 420
+  , graphHeight = canvasHeight - margin.top - margin.bottom;
 
   const svg = d3.select(".largeunits_age-frame")
     .attr("width", width)
-    .attr("height", canvasHeight + margin.top + margin.bottom)
+    .attr("height", canvasHeight)
 
-  svg.append("text")
+  const titles = svg.append("g")
+    .attr("class", "header")
+
+  titles.append("text")
     .attr('x', '50%')
-    .attr('y', '16')
+    .attr('y', '24')
     .attr('text-anchor', 'middle')
     .attr("class", "graph__title")
     .text("Large Unit Household Size by Tenure")
 
-  svg.append("text")
+  titles.append("text")
     .attr('x', '50%')
-    .attr('y', '36')
+    .attr('y', '44')
     .attr('text-anchor', 'middle')
     .attr("class", "graph__subtitle")
     .text("Inner Core PUMAS, 2012–2016")
@@ -30,16 +34,16 @@ d3.csv("/assets/data/household_size.csv").then((rawData) => {
   const graph = svg.append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
     .attr("class", "graph")
-    .attr("height", canvasHeight+margin.top+margin.bottom)
+    .attr("height", graphHeight)
 
   const xScale = d3.scaleBand()
-    .range([0, width-margin.left])
+    .range([0, width - margin.left])
     .domain(rawData.map((d) => d.type ))
     .round(true)
     .padding(.35);
 
   const yScale = d3.scaleLinear()
-    .range([canvasHeight-25, 0])
+    .range([graphHeight - margin.bottom, 0])
     .domain([0, 1]);
 
   const xAxis = d3.axisBottom(xScale)
@@ -48,7 +52,7 @@ d3.csv("/assets/data/household_size.csv").then((rawData) => {
 
   graph.append("g")
   .call(xAxis)
-  .attr("transform", "translate(0," + (canvasHeight - 25) + ")")
+  .attr("transform", "translate(0," + (graphHeight - margin.bottom) + ")")
 
 
   graph.selectAll("text")
@@ -72,12 +76,12 @@ d3.csv("/assets/data/household_size.csv").then((rawData) => {
     .attr("height", d => Math.abs(yScale(d[1]) - yScale(d[0])))
     .attr("width", xScale.bandwidth())
     .on("mousemove", function(d) {
-        tooltip.html(displayToolTip(d.data))
-        tooltip.attr("width", "200")
-        tooltip.attr("height", "200")
-        tooltip.style("display", null)
-        .style("left", tooltipLeft(d3.event, document.getElementsByClassName('tooltip')[0]))
-        .style("top", tooltipTop(d3.event,  document.getElementsByClassName('tooltip')[0]));
+      tooltip.html(displayToolTip(d.data))
+      tooltip.attr("width", "200")
+      tooltip.attr("height", "200")
+      tooltip.style("display", null)
+      .style("left", tooltipLeft(d3.event, document.getElementsByClassName('tooltip')[0]))
+      .style("top", tooltipTop(d3.event,  document.getElementsByClassName('tooltip')[0]));
     })
     .on("mouseleave", function(d) { tooltip.style("display", "none") })
 
@@ -98,7 +102,7 @@ d3.csv("/assets/data/household_size.csv").then((rawData) => {
     .attr("font-size", "12px")
     .attr("font-weight", "bold");
 
-    addLegend(canvasHeight, margin)
+    addLegend(canvasHeight)
 })
 
 function tooltipLeft(event, tooltip) {
@@ -133,7 +137,7 @@ function displayToolTip(data){
   + (d3.format(".0%")(data.onePerson)) + " 1 person</p>"
 }
 
-function addLegend(height, margin) {
+function addLegend(canvasHeight) {
   const legend = d3.select('svg')
   .append('g')
   .attr('class', 'legend')
@@ -144,14 +148,14 @@ function addLegend(height, margin) {
 
   legendItemOne.append('rect')
   .attr('x', 0)
-  .attr('y', height + margin.top + 5)
+  .attr('y', canvasHeight - 12)
   .attr('width', 10)
   .attr('height', 10)
   .attr('fill', '#78BE20')
 
   legendItemOne.append("text")
   .attr('x', 20)
-  .attr('y', height + margin.top + 14)
+  .attr('y', canvasHeight - 3)
   .text("1 person")
 
   const legendItemTwo = legend.append('g')
@@ -159,14 +163,14 @@ function addLegend(height, margin) {
 
   legendItemTwo.append('rect')
   .attr('x', 100)
-  .attr('y', height + margin.top + 5)
+  .attr('y', canvasHeight - 12)
   .attr('width', 10)
   .attr('height', 10)
   .attr('fill', '#012169')
 
   legendItemTwo.append("text")
   .attr('x', 120)
-  .attr('y', height + margin.top + 14)
+  .attr('y', canvasHeight - 3)
   .text("2 people")
 
   const legendItemThree = legend.append('g')
@@ -174,14 +178,14 @@ function addLegend(height, margin) {
 
   legendItemThree.append('rect')
   .attr('x', 200)
-  .attr('y', height + margin.top + 5)
+  .attr('y', canvasHeight - 12)
   .attr('width', 10)
   .attr('height', 10)
   .attr('fill', '#E8BA1C')
 
   legendItemThree.append("text")
   .attr('x', 220)
-  .attr('y', height + margin.top + 14)
+  .attr('y', canvasHeight - 3)
   .text("3 people")
 
   const legendItemFour = legend.append('g')
@@ -189,13 +193,13 @@ function addLegend(height, margin) {
 
   legendItemFour.append('rect')
   .attr('x', 300)
-  .attr('y', height + margin.top + 5)
+  .attr('y', canvasHeight - 12)
   .attr('width', 10)
   .attr('height', 10)
   .attr('fill', '#F47B20')
 
   legendItemFour.append("text")
   .attr('x', 320)
-  .attr('y', height + margin.top + 14)
+  .attr('y', canvasHeight - 3)
   .text("4+ people")
 }
