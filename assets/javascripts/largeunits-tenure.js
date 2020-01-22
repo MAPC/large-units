@@ -1,4 +1,4 @@
-d3.csv("/assets/data/household_size.csv").then((rawData) => {
+d3.csv("/large-units/assets/data/largeunits-tenure.csv").then((rawData) => {
   const headers = Object.keys(rawData[0]).slice(1);
   const seriesGen = d3.stack().keys(headers);
   const formattedData = seriesGen(rawData)
@@ -10,7 +10,7 @@ d3.csv("/assets/data/household_size.csv").then((rawData) => {
   , canvasHeight = 420
   , graphHeight = canvasHeight - margin.top - margin.bottom;
 
-  const svg = d3.select(".largeunits_age-frame")
+  const svg = d3.select(".largeunits_tenure-frame")
     .attr("width", width)
     .attr("height", canvasHeight)
 

@@ -1,4 +1,4 @@
-d3.csv("/assets/data/estimate_expected.csv").then((formattedData) => {
+d3.csv("/large-units/assets/data/estimate_expected.csv").then((formattedData) => {
   const margin = {top: 80, right: 0, bottom: 25, left: 50}
   , width = 900
   , canvasHeight = 420
@@ -38,7 +38,7 @@ d3.csv("/assets/data/estimate_expected.csv").then((formattedData) => {
 
   const yScale = d3.scaleLinear()
     .range([graphHeight - margin.bottom, 0])
-    .domain([0, d3.max(formattedData.map(datum => +datum.acs))])
+    .domain([0, 25000])
 
   const xAxis = d3.axisBottom(xScale)
   const yAxis = d3.axisLeft(yScale)
@@ -161,7 +161,7 @@ function addLegend(canvasHeight) {
   legendItemOne.append("text")
   .attr('x', 20)
   .attr('y', canvasHeight - 3)
-  .text("2012 – 2016 ACS Estimate")
+  .text("2012–2016 ACS Estimate")
 
   const legendItemTwo = legend.append('g')
   .attr('class', 'legend__item')
@@ -179,5 +179,5 @@ function addLegend(canvasHeight) {
   legendItemTwo.append("text")
   .attr('x', 220)
   .attr('y', canvasHeight - 3)
-  .text("Expected 2012 – 2016 based on 2000 Census Rates by Age")
+  .text("Expected 2012–2016 based on 2000 Census Rates by Age")
 }

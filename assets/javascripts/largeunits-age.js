@@ -1,4 +1,4 @@
-d3.csv("/assets/data/largeunits-age.csv").then((rawData) => {
+d3.csv("/large-units/assets/data/largeunits-age.csv").then((rawData) => {
   const headers = Object.keys(rawData[0]).slice(1);
   const totals = rawData.map(item => {
     return Object.values(item).slice(1)
@@ -140,13 +140,13 @@ function displayToolTip(data){
   + (d3.format(".0%")(data.ages70Up)) + " ages 70+</p>"
   + "<p class='tooltip__text'>" 
   + "<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill='#E8BA1C'/></svg>" 
-  + (d3.format(".0%")(data.ages55_69)) + " ages 55 - 69</p>"
+  + (d3.format(".0%")(data.ages55_69)) + " ages 55–69</p>"
   + "<p class='tooltip__text'>" 
   + "<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill='#012169'/></svg>"
-  + (d3.format(".0%")(data.ages35_52)) + " ages 35 - 54</p>"
+  + (d3.format(".0%")(data.ages35_52)) + " ages 35–54</p>"
   + "<p class='tooltip__text'>" 
   + "<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill='#78BE20'/></svg>"
-  + (d3.format(".0%")(data.ages15_34)) + " ages 15 - 34</p>"
+  + (d3.format(".0%")(data.ages15_34)) + " ages 15–34</p>"
 }
 
 function addLegend(canvasHeight) {
@@ -168,7 +168,7 @@ function addLegend(canvasHeight) {
   legendItemOne.append("text")
   .attr('x', 20)
   .attr('y', canvasHeight - 3)
-  .text("Ages 15 – 34")
+  .text("Ages 15–34")
 
   const legendItemTwo = legend.append('g')
   .attr('class', 'legend__item')
@@ -183,7 +183,7 @@ function addLegend(canvasHeight) {
   legendItemTwo.append("text")
   .attr('x', 120)
   .attr('y', canvasHeight - 3)
-  .text("Ages 35 – 54")
+  .text("Ages 35–54")
 
   const legendItemThree = legend.append('g')
   .attr('class', 'legend__item')
@@ -198,7 +198,7 @@ function addLegend(canvasHeight) {
   legendItemThree.append("text")
   .attr('x', 220)
   .attr('y', canvasHeight - 3)
-  .text("Ages 55 – 69")
+  .text("Ages 55–69")
 
   const legendItemFour = legend.append('g')
   .attr('class', 'legend__item')
