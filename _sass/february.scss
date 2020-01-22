@@ -1,6 +1,4 @@
 .iframe__content {
-  border: 1px solid red;
-  // padding: 20px;
   width: max-content;
 }
 
@@ -9,9 +7,6 @@ svg {
 }
 
 .graph {
-  &__header {
-    border: 1px solid blue;
-  }
   &__title {
     font-family: 'skolar-sans-latin';
     font-size: 1.25rem;

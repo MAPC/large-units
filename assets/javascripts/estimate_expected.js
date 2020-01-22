@@ -1,47 +1,52 @@
 d3.csv("/assets/data/estimate_expected.csv").then((formattedData) => {
-  const margin = {top: 75, right: 75, bottom: 20, left: 50}
+  const margin = {top: 80, right: 0, bottom: 25, left: 50}
   , width = 900
-  , height = 420 - margin.top - margin.bottom;
+  , canvasHeight = 420
+  , graphHeight = canvasHeight - margin.top - margin.bottom;
 
   const svg = d3.select(".estimate_expected-frame")
     .attr("width", width)
-    .attr("height", height + margin.top + margin.bottom)
+    .attr("height", canvasHeight)
 
-  svg.append("text")
+  const titles = svg.append("g")
+    .attr("class", "header")
+
+  titles.append("text")
     .attr('x', '50%')
-    .attr('y', '16')
+    .attr('y', '24')
     .attr('text-anchor', 'middle')
     .attr("class", "graph__title")
     .text("3+ Bedroom Units by Age of Householder")
 
-  svg.append("text")
+  titles.append("text")
     .attr('x', '50%')
-    .attr('y', '36')
+    .attr('y', '44')
     .attr('text-anchor', 'middle')
     .attr("class", "graph__subtitle")
-    .text("2016 Estimate vs. Expected")
+    .text("2016 Estimate vs. Expect")
 
   const graph = svg.append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
     .attr("class", "graph")
-    .attr("height", height+margin.top+margin.bottom)
+    .attr("height", graphHeight)
 
   const xScale = d3.scaleBand()
-    .range([0, width-margin.left])
+    .range([0, width - margin.left])
     .domain(formattedData.map((d) => d.type ))
     .round(true)
     .padding(.75);
 
   const yScale = d3.scaleLinear()
-    .range([height-25, 0])
-    .domain([0, d3.max(formattedData.map(datum => +datum.acs))]);
+    .range([graphHeight - margin.bottom, 0])
+    .domain([0, d3.max(formattedData.map(datum => +datum.acs))])
 
   const xAxis = d3.axisBottom(xScale)
   const yAxis = d3.axisLeft(yScale)
+  .ticks(5)
 
   graph.append("g")
   .call(xAxis)
-  .attr("transform", "translate(0," + (height - 25) + ")")
+  .attr("transform", "translate(0," + (graphHeight - margin.bottom) + ")")
 
 
   graph.selectAll("text")
@@ -58,8 +63,8 @@ d3.csv("/assets/data/estimate_expected.csv").then((formattedData) => {
     .style("fill", "#44aD89")
     .attr("x", function(d) { return xScale(d.type) - 5; })
     .attr("width", xScale.bandwidth() / 2 + 10)
-    .attr("y", function(d) { return yScale(d.acs) - 25; })
-    .attr("height", function(d) { return height - yScale(d.acs); })
+    .attr("y", function(d) { return yScale(d.acs); })
+    .attr("height", function(d) { return graphHeight - yScale(d.acs)  - margin.bottom; })
     .on("mousemove", function(d) {
       tooltip.html(displayToolTip(d))
       tooltip.attr("width", "200")
@@ -78,8 +83,8 @@ d3.csv("/assets/data/estimate_expected.csv").then((formattedData) => {
     .style("stroke", "black")
     .attr("x", function(d) { return (xScale(d.type) + xScale.bandwidth() / 2) - 5; })
     .attr("width", xScale.bandwidth() / 2 + 10)
-    .attr("y", function(d) { return yScale(d.expected) - 25; })
-    .attr("height", function(d) { return height - yScale(d.expected); })
+    .attr("y", function(d) { return yScale(d.expected); })
+    .attr("height", function(d) { return graphHeight - yScale(d.expected) - margin.bottom; })
     .on("mousemove", function(d) {
       tooltip.html(displayToolTip(d))
       tooltip.attr("width", "200")
@@ -107,7 +112,7 @@ d3.csv("/assets/data/estimate_expected.csv").then((formattedData) => {
     .attr("font-size", "12px")
     .attr("font-weight", "bold");
 
-    addLegend(height, margin);
+    addLegend(canvasHeight);
 })
 
 function tooltipLeft(event, tooltip) {
@@ -136,33 +141,35 @@ function displayToolTip(data) {
   + d3.format(",")(data.expected) + " expected</p>"
 }
 
-function addLegend(height, margin) {
+function addLegend(canvasHeight) {
   const legend = d3.select('svg')
   .append('g')
   .attr('class', 'legend')
-  .style('transform', 'translate(20%, 0)')
+  .style('transform', 'translate(170px, 0)')
 
   const legendItemOne = legend.append('g')
   .attr('class', 'legend__item')
+  .style('transform', 'translate(200, 10)')
 
   legendItemOne.append('rect')
   .attr('x', 0)
-  .attr('y', height + margin.top + 5)
+  .attr('y', canvasHeight - 12)
   .attr('width', 10)
   .attr('height', 10)
   .attr('fill', '#44aD89')
 
   legendItemOne.append("text")
   .attr('x', 20)
-  .attr('y', height + margin.top + 14)
+  .attr('y', canvasHeight - 3)
   .text("2012 – 2016 ACS Estimate")
 
   const legendItemTwo = legend.append('g')
   .attr('class', 'legend__item')
+  .style('transform', 'translate(300, 10)')
 
   legendItemTwo.append('rect')
   .attr('x', 200)
-  .attr('y', height + margin.top + 5)
+  .attr('y', canvasHeight - 12)
   .attr('width', 10)
   .attr('height', 10)
   .attr('stroke', 'black')
@@ -171,6 +178,6 @@ function addLegend(height, margin) {
 
   legendItemTwo.append("text")
   .attr('x', 220)
-  .attr('y', height + margin.top + 14)
+  .attr('y', canvasHeight - 3)
   .text("Expected 2012 – 2016 based on 2000 Census Rates by Age")
 }

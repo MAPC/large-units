@@ -7,11 +7,11 @@ d3.csv("/assets/data/household_size.csv").then((rawData) => {
   
   const margin = {top: 55, right: 75, bottom: 20, left: 40}
   , width = 700
-  , height = 420 - margin.top - margin.bottom;
+  , canvasHeight = 420 - margin.top - margin.bottom;
 
   const svg = d3.select(".largeunits_age-frame")
     .attr("width", width)
-    .attr("height", height + margin.top + margin.bottom)
+    .attr("height", canvasHeight + margin.top + margin.bottom)
 
   svg.append("text")
     .attr('x', '50%')
@@ -30,7 +30,7 @@ d3.csv("/assets/data/household_size.csv").then((rawData) => {
   const graph = svg.append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
     .attr("class", "graph")
-    .attr("height", height+margin.top+margin.bottom)
+    .attr("height", canvasHeight+margin.top+margin.bottom)
 
   const xScale = d3.scaleBand()
     .range([0, width-margin.left])
@@ -39,7 +39,7 @@ d3.csv("/assets/data/household_size.csv").then((rawData) => {
     .padding(.35);
 
   const yScale = d3.scaleLinear()
-    .range([height-25, 0])
+    .range([canvasHeight-25, 0])
     .domain([0, 1]);
 
   const xAxis = d3.axisBottom(xScale)
@@ -48,7 +48,7 @@ d3.csv("/assets/data/household_size.csv").then((rawData) => {
 
   graph.append("g")
   .call(xAxis)
-  .attr("transform", "translate(0," + (height - 25) + ")")
+  .attr("transform", "translate(0," + (canvasHeight - 25) + ")")
 
 
   graph.selectAll("text")
@@ -98,7 +98,7 @@ d3.csv("/assets/data/household_size.csv").then((rawData) => {
     .attr("font-size", "12px")
     .attr("font-weight", "bold");
 
-    addLegend(height, margin)
+    addLegend(canvasHeight, margin)
 })
 
 function tooltipLeft(event, tooltip) {

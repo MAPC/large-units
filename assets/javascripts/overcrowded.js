@@ -1,19 +1,16 @@
 d3.csv("/assets/data/overcrowded.csv").then((data) => {
-  const margin = {top: 60, right: 75, bottom: 25, left: 30}
+  const margin = {top: 80, right: 0, bottom: 25, left: 30}
   , width = 700
   , canvasHeight = 420
-  , graphHeight = canvasHeight - margin.top - margin.bottom
-  , xAxisMargin = 25
-  , yAxisMargin = 30;
+  , graphHeight = canvasHeight - margin.top - margin.bottom;
 
   const svg = d3.select(".overcrowded-frame")
     .attr("width", width)
     .attr("height", canvasHeight)
 
   const titles = svg.append("g")
-    .attr("class", "graph__header")
-    .attr("height", 50)
-  
+    .attr("class", "header")
+
   titles.append("text")
     .attr('x', '50%')
     .attr('y', '24')
@@ -29,7 +26,7 @@ d3.csv("/assets/data/overcrowded.csv").then((data) => {
     .text("Inner Core PUMAS, 2012-2016")
 
   const graph = svg.append("g")
-    .attr("transform", "translate(" + yAxisMargin + "," + margin.top + ")")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
     .attr("class", "graph")
     .attr("height", graphHeight)
 
@@ -40,16 +37,16 @@ d3.csv("/assets/data/overcrowded.csv").then((data) => {
     .padding(.65);
 
   const yScale = d3.scaleLinear()
-    .range([graphHeight - xAxisMargin, 0])
+    .range([graphHeight - margin.bottom, 0])
     .domain([0, .14]);
 
   const xAxis = d3.axisBottom(xScale)
   const yAxis = d3.axisLeft(yScale)
-    .ticks(14, "~%")
+    .ticks(7, "~%")
 
   graph.append("g")
   .call(xAxis)
-  .attr("transform", "translate(0," + (graphHeight - xAxisMargin) + ")")
+  .attr("transform", "translate(0," + (graphHeight - margin.bottom) + ")")
   .attr("class", "xaxis")
 
 
