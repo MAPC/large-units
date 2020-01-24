@@ -23,7 +23,7 @@ d3.csv("/large-units/assets/data/overcrowded.csv").then((data) => {
     .attr('y', '44')
     .attr('text-anchor', 'middle')
     .attr("class", "graph__subtitle")
-    .text("Inner Core PUMAS, 2012–2016")
+    .text("Study Area, 2012–2016")
 
   const graph = svg.append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")

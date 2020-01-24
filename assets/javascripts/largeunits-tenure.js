@@ -22,14 +22,14 @@ d3.csv("/large-units/assets/data/largeunits-tenure.csv").then((rawData) => {
     .attr('y', '24')
     .attr('text-anchor', 'middle')
     .attr("class", "graph__title")
-    .text("Large Unit Household Size by Tenure")
+    .text("Large Unit Household Type by Tenure")
 
   titles.append("text")
     .attr('x', '50%')
     .attr('y', '44')
     .attr('text-anchor', 'middle')
     .attr("class", "graph__subtitle")
-    .text("Inner Core PUMAS, 2012–2016")
+    .text("Study Area, 2012–2016")
 
   const graph = svg.append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")

@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Large Unit Household Size by Tenure"
+title:  "Large Unit Household Type by Tenure"
 description: "Click to view data visualization"
 ---
 <svg class="largeunits_tenure-frame"></svg>
