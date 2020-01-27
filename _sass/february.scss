@@ -2,6 +2,12 @@
   width: max-content;
 }
 
+.map {
+  &__container {
+    height: 400px;
+    width: 400px;
+  }
+}
 .graph {
   &__title {
     font-family: 'skolar-sans-latin';
