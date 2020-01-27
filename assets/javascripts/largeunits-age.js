@@ -118,7 +118,7 @@ d3.csv("/large-units/assets/data/largeunits-age.csv").then((rawData) => {
 })
 
 function tooltipLeft(event, tooltip) {
-  if (event.pageX > 350) {
+  if (event.pageX > 450) {
     return event.pageX - tooltip.offsetWidth - 10 + "px"
   } else {
     return event.pageX + 10 + "px"
@@ -126,7 +126,7 @@ function tooltipLeft(event, tooltip) {
 }
 
 function tooltipTop(event, tooltip) {
-  if (event.pageY > 275) {
+  if (event.pageY > 250) {
     return event.pageY - tooltip.offsetHeight - 10 + "px"
   } else {
     return event.pageY + 10 + "px"

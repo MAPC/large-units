@@ -96,7 +96,7 @@ d3.csv("/large-units/assets/data/overcrowded.csv").then((data) => {
 })
 
 function tooltipLeft(event, tooltip) {
-  if (event.pageX > 350) {
+  if (event.pageX > 330) {
     return event.pageX - tooltip.offsetWidth - 10 + "px"
   } else {
     return event.pageX + 10 + "px"

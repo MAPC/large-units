@@ -15,7 +15,7 @@ d3.csv("/large-units/assets/data/largeunits-hhtype.csv").then((rawData) => {
     }
   }))
 
-  const colors = ["#78BE20", "#012169", "#E8BA1C", "#F47B20"]
+  const colors = ["#F47B20", "#a4d2ff", "#1b90ff", "#012169"]
   
   const margin = {top: 80, right: 0, bottom: 20, left: 40}
   , width = 700
@@ -118,7 +118,7 @@ d3.csv("/large-units/assets/data/largeunits-hhtype.csv").then((rawData) => {
 })
 
 function tooltipLeft(event, tooltip) {
-  if (event.pageX > 350) {
+  if (event.pageX > 450) {
     return event.pageX - tooltip.offsetWidth - 10 + "px"
   } else {
     return event.pageX + 10 + "px"
@@ -126,7 +126,7 @@ function tooltipLeft(event, tooltip) {
 }
 
 function tooltipTop(event, tooltip) {
-  if (event.pageY > 275) {
+  if (event.pageY > 250) {
     return event.pageY - tooltip.offsetHeight - 10 + "px"
   } else {
     return event.pageY + 10 + "px"
@@ -136,17 +136,17 @@ function tooltipTop(event, tooltip) {
 function displayToolTip(data) {
   return "<h4 class='tooltip__title'>" + data.type + "</h4>"
   + "<p class='tooltip__text'>" 
-  + "<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill=' #F47B20'/></svg>"
-  + (d3.format(".0%")(data.householdWc)) + " households with children</p>"
+  + "<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill='#012169'/></svg>"
+  + (d3.format(".0%")(data.onePerson)) + " 1 Person</p>"
   + "<p class='tooltip__text'>" 
-  + "<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill='#E8BA1C'/></svg>"
-  + (d3.format(".0%")(data.threePeopleNc)) + " three person households</p>"
+  + "<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill='#1b90ff'/></svg>"
+  + (d3.format(".0%")(data.twoPeopleNc)) + " 2 People, No Children</p>"
   + "<p class='tooltip__text'>" 
-  + "<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill='#012169'/></svg>" 
-  + (d3.format(".0%")(data.twoPeopleNc)) + " two person households</p>"
+  + "<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill='#a4d2ff'/></svg>" 
+  + (d3.format(".0%")(data.threePeopleNc)) + " 3+ People, No Children</p>"
   + "<p class='tooltip__text'>"
-  + "<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill='#78BE20'/></svg>"
-  + (d3.format(".0%")(data.onePerson)) + " one person households</p>"
+  + "<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill='#F47B20'/></svg>"
+  + (d3.format(".0%")(data.householdWc)) + " Household with Child Under 18</p>"
 }
 
 function addLegend(canvasHeight) {
@@ -163,7 +163,7 @@ function addLegend(canvasHeight) {
   .attr('y', canvasHeight - 12)
   .attr('width', 10)
   .attr('height', 10)
-  .attr('fill', '#78BE20')
+  .attr('fill', '#012169')
 
   legendItemOne.append("text")
   .attr('x', 20)
@@ -178,7 +178,7 @@ function addLegend(canvasHeight) {
   .attr('y', canvasHeight - 12)
   .attr('width', 10)
   .attr('height', 10)
-  .attr('fill', '#012169')
+  .attr('fill', '#1b90ff')
 
   legendItemTwo.append("text")
   .attr('x', 110)
@@ -193,7 +193,7 @@ function addLegend(canvasHeight) {
   .attr('y', canvasHeight - 12)
   .attr('width', 10)
   .attr('height', 10)
-  .attr('fill', '#E8BA1C')
+  .attr('fill', '#a4d2ff')
 
   legendItemThree.append("text")
   .attr('x', 280)
@@ -213,5 +213,5 @@ function addLegend(canvasHeight) {
   legendItemFour.append("text")
   .attr('x', 455)
   .attr('y', canvasHeight - 3)
-  .text("Household with Child under 18")
+  .text("Household with Child Under 18")
 }

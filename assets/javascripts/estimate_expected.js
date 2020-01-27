@@ -23,7 +23,7 @@ d3.csv("/large-units/assets/data/estimate_expected.csv").then((formattedData) =>
     .attr('y', '44')
     .attr('text-anchor', 'middle')
     .attr("class", "graph__subtitle")
-    .text("2016 Estimate vs. Expect")
+    .text("2016 Expected vs. Estimated")
 
   const graph = svg.append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
@@ -61,7 +61,7 @@ d3.csv("/large-units/assets/data/estimate_expected.csv").then((formattedData) =>
     .data(formattedData)
     .enter().append("rect")
     .style("fill", "#44aD89")
-    .attr("x", function(d) { return xScale(d.type) - 5; })
+    .attr("x", function(d) { return (xScale(d.type) + xScale.bandwidth() / 2) - 5; })
     .attr("width", xScale.bandwidth() / 2 + 10)
     .attr("y", function(d) { return yScale(d.acs); })
     .attr("height", function(d) { return graphHeight - yScale(d.acs)  - margin.bottom; })
@@ -75,13 +75,12 @@ d3.csv("/large-units/assets/data/estimate_expected.csv").then((formattedData) =>
     })
     .on("mouseleave", function(d) { tooltip.style("display", "none") });
 
-
-    graph.selectAll("bar")
+  graph.selectAll("bar")
     .data(formattedData)
     .enter().append("rect")
     .style("fill", "rgba(255,255,255,.5)")
     .style("stroke", "black")
-    .attr("x", function(d) { return (xScale(d.type) + xScale.bandwidth() / 2) - 5; })
+    .attr("x", function(d) { return xScale(d.type) - 5; })
     .attr("width", xScale.bandwidth() / 2 + 10)
     .attr("y", function(d) { return yScale(d.expected); })
     .attr("height", function(d) { return graphHeight - yScale(d.expected) - margin.bottom; })
@@ -116,7 +115,7 @@ d3.csv("/large-units/assets/data/estimate_expected.csv").then((formattedData) =>
 })
 
 function tooltipLeft(event, tooltip) {
-  if (event.pageX > 350) {
+  if (event.pageX > 445) {
     return event.pageX - tooltip.offsetWidth - 10 + "px"
   } else {
     return event.pageX + 10 + "px"
@@ -124,7 +123,7 @@ function tooltipLeft(event, tooltip) {
 }
 
 function tooltipTop(event, tooltip) {
-  if (event.pageY > 275) {
+  if (event.pageY > 250) {
     return event.pageY - tooltip.offsetHeight - 10 + "px"
   } else {
     return event.pageY + 10 + "px"
@@ -134,11 +133,11 @@ function tooltipTop(event, tooltip) {
 function displayToolTip(data) {
   return "<h4 class='tooltip__title'>Age range: " + data.type + "</h4>"
   + "<p class='tooltip__text'>"
-  + "<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill='#44aD89'/></svg>"
-  + d3.format(",")(data.acs) + " estimated</p>"
-  + "<p class='tooltip__text'>"
   + "<svg width='16' height='10'><circle cx='5' cy='5' r='4' stroke='black' fill='white'/></svg>"
   + d3.format(",")(data.expected) + " expected</p>"
+  + "<p class='tooltip__text'>"
+  + "<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill='#44aD89'/></svg>"
+  + d3.format(",")(data.acs) + " estimated</p>"
 }
 
 function addLegend(canvasHeight) {
@@ -149,26 +148,10 @@ function addLegend(canvasHeight) {
 
   const legendItemOne = legend.append('g')
   .attr('class', 'legend__item')
-  .style('transform', 'translate(200, 10)')
+  .style('transform', 'translate(300, 10)')
 
   legendItemOne.append('rect')
   .attr('x', 0)
-  .attr('y', canvasHeight - 12)
-  .attr('width', 10)
-  .attr('height', 10)
-  .attr('fill', '#44aD89')
-
-  legendItemOne.append("text")
-  .attr('x', 20)
-  .attr('y', canvasHeight - 3)
-  .text("2012–2016 ACS Estimate")
-
-  const legendItemTwo = legend.append('g')
-  .attr('class', 'legend__item')
-  .style('transform', 'translate(300, 10)')
-
-  legendItemTwo.append('rect')
-  .attr('x', 200)
   .attr('y', canvasHeight - 12)
   .attr('width', 10)
   .attr('height', 10)
@@ -176,8 +159,25 @@ function addLegend(canvasHeight) {
   .attr('stroke-width', 1)
   .attr('fill', 'white')
 
-  legendItemTwo.append("text")
-  .attr('x', 220)
+  legendItemOne.append("text")
+  .attr('x', 20)
   .attr('y', canvasHeight - 3)
   .text("Expected 2012–2016 based on 2000 Census Rates by Age")
+
+
+  const legendItemTwo = legend.append('g')
+  .attr('class', 'legend__item')
+  .style('transform', 'translate(200, 10)')
+
+  legendItemTwo.append('rect')
+  .attr('x', 400)
+  .attr('y', canvasHeight - 12)
+  .attr('width', 10)
+  .attr('height', 10)
+  .attr('fill', '#44aD89')
+
+  legendItemTwo.append("text")
+  .attr('x', 420)
+  .attr('y', canvasHeight - 3)
+  .text("2012–2016 ACS Estimate")
 }
