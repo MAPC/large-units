@@ -17,11 +17,8 @@ fetch("https://prql.mapc.org/?query=%20select%20*%20from%20tabular.b25031_median
   
   map.on('load', function() {
     let expression = ['match', ['get', 'ct10_id']]
-    response.rows.forEach((row) => {
-      expression.push(row['ct10_id'], `rgba(255,255,${Math.round((row.rent3br / 3501) * 255)},1)`)
-    })
-
-    expression.push('red')
+    response.rows.forEach((row) => { expression.push(row['ct10_id'], `rgba(255,255,${Math.round((row.rent3br / 3501) * 255)},1)`)})
+    expression.push('rgba(0,0,0,0)')
     map.addLayer({
       'id': 'tracts-choropleth',
       'type': 'fill',
@@ -31,26 +28,25 @@ fetch("https://prql.mapc.org/?query=%20select%20*%20from%20tabular.b25031_median
         'fill-color': expression
       }
     })
-    console.log(map.getStyle().layers)
     map.moveLayer("tracts-choropleth", "muni-polygons")
   })
+
+  map.on('click', function(e) {
+    const clickedData = map.queryRenderedFeatures(
+      [e.point.x,e.point.y],
+      { layers: ['muni-polygons', 'tracts'] }
+    )
+    console.log(clickedData)
+    const tractId = clickedData[0].properties.ct10_id;
+    const municipality = clickedData[1].properties.municipal
+    const tooltipText = `<p><span class='tooltip__text'>Tract ${tractId}</span>`
+    + `<span class='tooltip__text'> (${municipality})</span></p>`
+    new mapboxgl.Popup()
+      .setLngLat(e.lngLat)
+      .setHTML(tooltipText)
+      .addTo(map);
+  })
 })
-
-
-
-// // map.setLayoutProperty('Census Municipalities', 'visibility', 'none');
-// map.on('click', 'Blocks', function(e) {
-//   if (map.getLayoutProperty('Blocks', 'visibility') === 'visible') {
-//     const population = d3.format(",")(e.features[0].properties.pop_copy)
-//     const tooltipText = `<h3 class='tooltip__title'>Block ID ${e.features[0].properties.GEOID10}</h3><p class='tooltip__body'>Population: ${population}</p>`
-//     new mapboxgl.Popup()
-//     .setLngLat(e.lngLat)
-//     .setHTML(tooltipText)
-//     .addTo(map);
-//   }
-// })
-
-
 
 function createLegend() {
   const legendSvg = d3.select('.legend__scale')
