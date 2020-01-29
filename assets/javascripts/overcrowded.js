@@ -62,7 +62,7 @@ d3.csv("/large-units/assets/data/overcrowded.csv").then((data) => {
   graph.selectAll("bar")
     .data(data)
     .enter().append("rect")
-    .style("fill", "#78BE20")
+    .style("fill", " #0063E6")
     .attr("x", function(d) { return xScale(d.household); })
     .attr("width", xScale.bandwidth())
     .attr("y", function(d) { return yScale(d.percentage); })

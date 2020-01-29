@@ -1,5 +1,4 @@
 d3.csv('/large-units/assets/data/temp-data.csv').then((response) => {
-  console.log(response)
   let map = new mapboxgl.Map({
     container: 'map',
     zoom: 6,

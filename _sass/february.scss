@@ -84,3 +84,7 @@
 .mapboxgl-ctrl-top-right {
   top: 180px!important;
 }
+
+.mapboxgl-popup {
+  z-index: 10;
+}

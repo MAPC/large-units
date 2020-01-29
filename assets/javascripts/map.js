@@ -36,7 +36,6 @@ fetch("https://prql.mapc.org/?query=%20select%20*%20from%20tabular.b25031_median
       [e.point.x,e.point.y],
       { layers: ['muni-polygons', 'tracts'] }
     )
-    console.log(clickedData)
     const tractId = clickedData[0].properties.ct10_id;
     const municipality = clickedData[1].properties.municipal
     const tooltipText = `<p><span class='tooltip__text'>Tract ${tractId}</span>`
