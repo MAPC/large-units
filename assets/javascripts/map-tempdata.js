@@ -13,6 +13,7 @@ d3.csv('/large-units/assets/data/temp-data.csv').then((response) => {
     accessToken: 'pk.eyJ1IjoiaWhpbGwiLCJhIjoiY2plZzUwMTRzMW45NjJxb2R2Z2thOWF1YiJ9.szIAeMS4c9YTgNsJeG36gg',
     hash: true,
   });
+  const colorPalette = ['#0097c4', '#3b66b0', '#233069', '#111436'];
 
   const percentagesObj = {};
   const moeObj = {};
@@ -22,17 +23,16 @@ d3.csv('/large-units/assets/data/temp-data.csv').then((response) => {
   });
 
   map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
-
   map.on('load', () => {
-    addLegend();
-    const colors = d3.scaleQuantize()
+    addLegend(colorPalette);
+    const colorPolygon = d3.scaleQuantize()
       .domain([0,1])
-      .range(['#111436', '#233069', '#3b66b0', '#0097c4']);
+      .range(colorPalette);
     const colorExpression = ['match', ['get', 'ct10_id']];
     const patternExpression = ['match', ['get', 'ct10_id']];
     response.forEach((row) => {
-      colorExpression.push(row.TractIDt, +row.pct3bd_est <= 1 ? colors(+row.pct3bd_est) : '#B57F00')
-      patternExpression.push(row.TractIDt, +row.pct3bd_moe >= .3 ? 'thin-line3' : 'blank')
+      colorExpression.push(row.TractIDt, +row.pct3bd_est <= 1 ? colorPolygon(+row.pct3bd_est) : '#B57F00')
+      patternExpression.push(row.TractIDt, (+row.pct3bd_moe >= .3 && +row.pct3bd_est <= 1) ? 'thin-line3' : 'blank')
     });
     colorExpression.push('#B57F00');
     patternExpression.push('blank')
@@ -78,16 +78,17 @@ d3.csv('/large-units/assets/data/temp-data.csv').then((response) => {
   });
 });
 
-function addLegend() {
+function addLegend(colorPalette) {
+
   document.querySelector('.mapboxgl-ctrl-top-right').innerHTML = "<aside class='legend'>"
     + "<svg height='146' width='160'>"
-    + "<rect width='16' height='16' x='8' y='8' style='fill:#111436; stroke: black; stroke-width: 1px;'></rect>"
+    + `<rect width='16' height='16' x='8' y='8' style='fill:${colorPalette[0]}; stroke: black; stroke-width: 1px;'></rect>`
     + "<text x='32' y='20' class='legend__label'>0%-25%</text>"
-    + "<rect width='16' height='16' x='8' y='32' style='fill:#233069; stroke: black; stroke-width: 1px;'></rect>"
+    + `<rect width='16' height='16' x='8' y='32' style='fill:${colorPalette[1]}; stroke: black; stroke-width: 1px;'></rect>`
     + "<text x='32' y='44' class='legend__label'>26%-50%</text>"
-    + "<rect width='16' height='16' x='8' y='56' style='fill:#3B66B0; stroke: black; stroke-width: 1px;'></rect>"
+    + `<rect width='16' height='16' x='8' y='56' style='fill:${colorPalette[2]}; stroke: black; stroke-width: 1px;'></rect>`
     + "<text x='32' y='70' class='legend__label'>51%-75%</text>"
-    + "<rect width='16' height='16' x='8' y='80' style='fill:#0097C4; stroke: black; stroke-width: 1px;'></rect>"
+    + `<rect width='16' height='16' x='8' y='80' style='fill:${colorPalette[3]}; stroke: black; stroke-width: 1px;'></rect>`
     + "<text x='32' y='92' class='legend__label'>76%-100%</text>"
     + "<rect width='16' height='16' x='8' y='104' style='fill:#B57F00; stroke: black; stroke-width: 1px;'></rect>"
     + "<text x='32' y='116' class='legend__label'>Data unavailable</text>"
