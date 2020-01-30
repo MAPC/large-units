@@ -3,7 +3,7 @@ d3.csv("/large-units/assets/data/largeunits-tenure.csv").then((rawData) => {
   const seriesGen = d3.stack().keys(headers);
   const formattedData = seriesGen(rawData)
 
-  const colors = ["#F47B20", "#a4d2ff", "#1b90ff", "#012169"]
+  const colors = ['#D59C29', '#3B66B0', '#233069', '#111436'];
   
   const margin = {top: 80, right: 0, bottom: 20, left: 40}
   , width = 700
@@ -76,7 +76,7 @@ d3.csv("/large-units/assets/data/largeunits-tenure.csv").then((rawData) => {
     .attr("height", d => Math.abs(yScale(d[1]) - yScale(d[0])))
     .attr("width", xScale.bandwidth())
     .on("mousemove", function(d) {
-      tooltip.html(displayToolTip(d.data))
+      tooltip.html(displayToolTip(d.data, colors))
       tooltip.attr("width", "200")
       tooltip.attr("height", "200")
       tooltip.style("display", null)
@@ -102,7 +102,7 @@ d3.csv("/large-units/assets/data/largeunits-tenure.csv").then((rawData) => {
     .attr("font-size", "12px")
     .attr("font-weight", "bold");
 
-    addLegend(canvasHeight)
+    addLegend(canvasHeight, colors)
 })
 
 function tooltipLeft(event, tooltip) {
@@ -121,85 +121,85 @@ function tooltipTop(event, tooltip) {
   }
 }
 
-function displayToolTip(data) {
-  return "<h4 class='tooltip__title'>" + data.type + "</h4>"
-  + "<p class='tooltip__text'>" 
-  + "<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill='#012169'/></svg>"
-  + (d3.format(".0%")(data.onePerson)) + " 1 Person</p>"
-  + "<p class='tooltip__text'>" 
-  + "<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill='#1b90ff'/></svg>"
-  + (d3.format(".0%")(data.twoPeopleNc)) + " 2 People, No Children</p>"
-  + "<p class='tooltip__text'>" 
-  + "<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill='#a4d2ff'/></svg>" 
-  + (d3.format(".0%")(data.threePeopleNc)) + " 3+ People, No Children</p>"
-  + "<p class='tooltip__text'>"
-  + "<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill='#F47B20'/></svg>"
-  + (d3.format(".0%")(data.householdWc)) + " Household with Children Under 18</p>"
+function displayToolTip(data, colors) {
+  return `<h4 class='tooltip__title'>${data.type}</h4>`
+  + '<p class=\'tooltip__text\'>'
+  + `<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill='${colors[3]}'/></svg>${
+    d3.format('.0%')(data.onePerson)} 1 Person</p>`
+  + '<p class=\'tooltip__text\'>'
+  + `<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill='${colors[2]}'/></svg>${
+    d3.format('.0%')(data.twoPeopleNc)} 2 People, No Children</p>`
+  + '<p class=\'tooltip__text\'>'
+  + `<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill='${colors[1]}'/></svg>${
+    d3.format('.0%')(data.threePeopleNc)} 3+ People, No Children</p>`
+  + '<p class=\'tooltip__text\'>'
+  + `<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill='${colors[0]}'/></svg>${
+    d3.format('.0%')(data.householdWc)} Household with Child Under 18</p>`;
 }
 
-function addLegend(canvasHeight) {
+function addLegend(canvasHeight, colors) {
   const legend = d3.select('svg')
-  .append('g')
-  .attr('class', 'legend')
-  .style('transform', 'translate(5%, 0)')
+    .append('g')
+    .attr('class', 'legend')
+    .style('transform', 'translate(5%, 0)');
 
   const legendItemOne = legend.append('g')
-  .attr('class', 'legend__item')
+    .attr('class', 'legend__item');
 
   legendItemOne.append('rect')
-  .attr('x', 0)
-  .attr('y', canvasHeight - 12)
-  .attr('width', 10)
-  .attr('height', 10)
-  .attr('fill', '#012169')
+    .attr('x', 0)
+    .attr('y', canvasHeight - 12)
+    .attr('width', 10)
+    .attr('height', 10)
+    .attr('fill', colors[3]);
 
-  legendItemOne.append("text")
-  .attr('x', 20)
-  .attr('y', canvasHeight - 3)
-  .text("1 Person")
+  legendItemOne.append('text')
+    .attr('x', 20)
+    .attr('y', canvasHeight - 3)
+    .text('1 Person');
 
   const legendItemTwo = legend.append('g')
-  .attr('class', 'legend__item')
+    .attr('class', 'legend__item');
 
   legendItemTwo.append('rect')
-  .attr('x', 90)
-  .attr('y', canvasHeight - 12)
-  .attr('width', 10)
-  .attr('height', 10)
-  .attr('fill', '#1b90ff')
+    .attr('x', 90)
+    .attr('y', canvasHeight - 12)
+    .attr('width', 10)
+    .attr('height', 10)
+    .attr('fill', colors[2]);
 
-  legendItemTwo.append("text")
-  .attr('x', 110)
-  .attr('y', canvasHeight - 3)
-  .text("2 People, No Children")
+  legendItemTwo.append('text')
+    .attr('x', 110)
+    .attr('y', canvasHeight - 3)
+    .text('2 People, No Children');
 
   const legendItemThree = legend.append('g')
-  .attr('class', 'legend__item')
+    .attr('class', 'legend__item');
 
   legendItemThree.append('rect')
-  .attr('x', 260)
-  .attr('y', canvasHeight - 12)
-  .attr('width', 10)
-  .attr('height', 10)
-  .attr('fill', '#a4d2ff')
+    .attr('x', 260)
+    .attr('y', canvasHeight - 12)
+    .attr('width', 10)
+    .attr('height', 10)
+    .attr('fill', colors[1]);
 
-  legendItemThree.append("text")
-  .attr('x', 280)
-  .attr('y', canvasHeight - 3)
-  .text("3+ People, No Children")
+  legendItemThree.append('text')
+    .attr('x', 280)
+    .attr('y', canvasHeight - 3)
+    .text('3+ People, No Children');
 
   const legendItemFour = legend.append('g')
-  .attr('class', 'legend__item')
+    .attr('class', 'legend__item');
 
   legendItemFour.append('rect')
-  .attr('x', 435)
-  .attr('y', canvasHeight - 12)
-  .attr('width', 10)
-  .attr('height', 10)
-  .attr('fill', '#F47B20')
+    .attr('x', 435)
+    .attr('y', canvasHeight - 12)
+    .attr('width', 10)
+    .attr('height', 10)
+    .attr('fill', colors[0]);
 
-  legendItemFour.append("text")
-  .attr('x', 455)
-  .attr('y', canvasHeight - 3)
-  .text("Household with Child Under 18")
+  legendItemFour.append('text')
+    .attr('x', 455)
+    .attr('y', canvasHeight - 3)
+    .text('Household with Child Under 18');
 }

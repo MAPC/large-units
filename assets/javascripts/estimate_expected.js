@@ -60,7 +60,7 @@ d3.csv("/large-units/assets/data/estimate_expected.csv").then((formattedData) =>
   graph.selectAll("bar")
     .data(formattedData)
     .enter().append("rect")
-    .style("fill", " #0063E6")
+    .style("fill", "#3B66B0")
     .attr("x", function(d) { return (xScale(d.type) + xScale.bandwidth() / 2) - 5; })
     .attr("width", xScale.bandwidth() / 2 + 10)
     .attr("y", function(d) { return yScale(d.acs); })
@@ -136,7 +136,7 @@ function displayToolTip(data) {
   + "<svg width='16' height='10'><circle cx='5' cy='5' r='4' stroke='black' fill='white'/></svg>"
   + d3.format(",")(data.expected) + " expected</p>"
   + "<p class='tooltip__text'>"
-  + "<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill=' #0063E6'/></svg>"
+  + "<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill=' #3B66B0'/></svg>"
   + d3.format(",")(data.acs) + " estimated</p>"
 }
 
@@ -174,7 +174,7 @@ function addLegend(canvasHeight) {
   .attr('y', canvasHeight - 12)
   .attr('width', 10)
   .attr('height', 10)
-  .attr('fill', ' #0063E6')
+  .attr('fill', ' #3B66B0')
 
   legendItemTwo.append("text")
   .attr('x', 420)

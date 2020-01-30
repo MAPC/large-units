@@ -11,7 +11,7 @@ d3.csv('/large-units/assets/data/largeunits-hhtype.csv').then((rawData) => {
     householdWc: +item.householdWc / totals[i],
   })));
 
-  const colors = ['#D59C29', '#a4d2ff', '#1b90ff', '#012169'];
+  const colors = ['#D59C29', '#3B66B0', '#233069', '#111436'];
 
   const margin = {
     top: 80, right: 0, bottom: 20, left: 40,
@@ -87,7 +87,7 @@ d3.csv('/large-units/assets/data/largeunits-hhtype.csv').then((rawData) => {
     .attr('height', (d) => Math.abs(yScale(d[1]) - yScale(d[0])))
     .attr('width', xScale.bandwidth())
     .on('mousemove', (d) => {
-      tooltip.html(displayToolTip(d.data));
+      tooltip.html(displayToolTip(d.data, colors));
       tooltip.attr('width', '200');
       tooltip.attr('height', '200');
       tooltip.style('display', null)
@@ -113,7 +113,7 @@ d3.csv('/large-units/assets/data/largeunits-hhtype.csv').then((rawData) => {
     .attr('font-size', '12px')
     .attr('font-weight', 'bold');
 
-  addLegend(canvasHeight);
+  addLegend(canvasHeight, colors);
 });
 
 function tooltipLeft(event, tooltip) {
@@ -130,23 +130,23 @@ function tooltipTop(event, tooltip) {
   return `${event.pageY + 10}px`;
 }
 
-function displayToolTip(data) {
+function displayToolTip(data, colors) {
   return `<h4 class='tooltip__title'>${data.type}</h4>`
   + '<p class=\'tooltip__text\'>'
-  + `<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill='#012169'/></svg>${
+  + `<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill='${colors[3]}'/></svg>${
     d3.format('.0%')(data.onePerson)} 1 Person</p>`
   + '<p class=\'tooltip__text\'>'
-  + `<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill='#1b90ff'/></svg>${
+  + `<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill='${colors[2]}'/></svg>${
     d3.format('.0%')(data.twoPeopleNc)} 2 People, No Children</p>`
   + '<p class=\'tooltip__text\'>'
-  + `<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill='#a4d2ff'/></svg>${
+  + `<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill='${colors[1]}'/></svg>${
     d3.format('.0%')(data.threePeopleNc)} 3+ People, No Children</p>`
   + '<p class=\'tooltip__text\'>'
-  + `<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill='#F47B20'/></svg>${
+  + `<svg width='16' height='10'><circle cx='5' cy='5' r='5' fill='${colors[0]}'/></svg>${
     d3.format('.0%')(data.householdWc)} Household with Child Under 18</p>`;
 }
 
-function addLegend(canvasHeight) {
+function addLegend(canvasHeight, colors) {
   const legend = d3.select('svg')
     .append('g')
     .attr('class', 'legend')
@@ -160,7 +160,7 @@ function addLegend(canvasHeight) {
     .attr('y', canvasHeight - 12)
     .attr('width', 10)
     .attr('height', 10)
-    .attr('fill', '#012169');
+    .attr('fill', colors[3]);
 
   legendItemOne.append('text')
     .attr('x', 20)
@@ -175,7 +175,7 @@ function addLegend(canvasHeight) {
     .attr('y', canvasHeight - 12)
     .attr('width', 10)
     .attr('height', 10)
-    .attr('fill', '#1b90ff');
+    .attr('fill', colors[2]);
 
   legendItemTwo.append('text')
     .attr('x', 110)
@@ -190,7 +190,7 @@ function addLegend(canvasHeight) {
     .attr('y', canvasHeight - 12)
     .attr('width', 10)
     .attr('height', 10)
-    .attr('fill', '#a4d2ff');
+    .attr('fill', colors[1]);
 
   legendItemThree.append('text')
     .attr('x', 280)
@@ -205,7 +205,7 @@ function addLegend(canvasHeight) {
     .attr('y', canvasHeight - 12)
     .attr('width', 10)
     .attr('height', 10)
-    .attr('fill', '#F47B20');
+    .attr('fill', colors[0]);
 
   legendItemFour.append('text')
     .attr('x', 455)
