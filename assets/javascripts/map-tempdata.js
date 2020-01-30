@@ -2,12 +2,12 @@ d3.csv('/large-units/assets/data/temp-data.csv').then((response) => {
   const map = new mapboxgl.Map({
     container: 'map',
     zoom: 8,
-    minZoom: 8,
+    minZoom: 6,
     maxZoom: 13,
     center: [-70.986, 42.413],
     maxBounds: [
-      [-72, 41.5], // Southwest bound
-      [-70, 43], // Northeast bound
+      [-74.728, 38.167], // Southwest bound
+      [-66.541, 46.032], // Northeast bound
     ],
     style: 'mapbox://styles/ihill/ck5sc5wql2ezb1imqyu8a1miu/draft',
     accessToken: 'pk.eyJ1IjoiaWhpbGwiLCJhIjoiY2plZzUwMTRzMW45NjJxb2R2Z2thOWF1YiJ9.szIAeMS4c9YTgNsJeG36gg',

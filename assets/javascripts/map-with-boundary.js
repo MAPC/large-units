@@ -58,8 +58,6 @@ d3.csv('/large-units/assets/data/temp-data.csv').then((response) => {
     map.moveLayer('tracts-choropleth', 'MAPC municipal borders');
     map.moveLayer('tracts-pattern', 'MAPC municipal borders');
     map.moveLayer('tracts-choropleth', 'Study Boundary')
-
-    console.log(map.getStyle())
   });
 
 
