@@ -26,6 +26,22 @@ body {
     margin: .5rem;
     padding: 1rem;
   }
+
+  &__legend {
+    background: rgba(255,255,255,.9);
+    margin: .5rem;
+    @media only screen and (max-width: 400px) {
+      display: none;
+    }
+
+    &--mobile {
+      @media only screen and (max-width: 400px) {
+        display: inline;
+      }
+      display: none;
+      width: 160px;
+    }
+  }
 }
 
 .graph {
