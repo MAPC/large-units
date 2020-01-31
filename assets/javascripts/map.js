@@ -80,7 +80,7 @@ d3.csv('/large-units/assets/data/b25041_bedrooms_per_unit_ct.csv')
 });
 
 function addLegend(colorPalette) {
-  document.querySelector('.mapboxgl-ctrl-top-left').innerHTML = "<h2 class='map__title'>Percent Family Sized Units</h2>";
+  document.querySelector('.mapboxgl-ctrl-top-left').innerHTML = "<h2 class='map__title'>Family Sized Housing Units</h2>";
 
   document.querySelector('.mapboxgl-ctrl-top-right').innerHTML = "<aside class='map__legend'>"
     + "<svg height='146' width='160'>"
