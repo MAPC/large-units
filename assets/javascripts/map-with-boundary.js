@@ -59,8 +59,6 @@ d3.csv('/large-units/assets/data/b25041_bedrooms_per_unit_ct.csv')
     });
     map.moveLayer('tracts-choropleth', 'MAPC municipal borders');
     map.moveLayer('tracts-pattern', 'MAPC municipal borders');
-
-    console.log(map.getStyle().layers)
   });
 
 
