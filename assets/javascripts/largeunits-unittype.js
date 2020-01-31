@@ -1,4 +1,4 @@
-d3.csv("/large-units/assets/data/largeunits-unitytype.csv").then((rawData) => {
+d3.csv("/large-units/assets/data/largeunits-unittype.csv").then((rawData) => {
   const headers = Object.keys(rawData[0]).slice(1);
   const seriesGen = d3.stack().keys(headers);
   const formattedData = seriesGen(rawData)
@@ -10,7 +10,7 @@ d3.csv("/large-units/assets/data/largeunits-unitytype.csv").then((rawData) => {
   , canvasHeight = 420
   , graphHeight = canvasHeight - margin.top - margin.bottom;
 
-  const svg = d3.select(".largeunits_tenure-frame")
+  const svg = d3.select(".largeunits_unittype-frame")
     .attr("width", width)
     .attr("height", canvasHeight)
 
@@ -22,7 +22,7 @@ d3.csv("/large-units/assets/data/largeunits-unitytype.csv").then((rawData) => {
     .attr('y', '24')
     .attr('text-anchor', 'middle')
     .attr("class", "graph__title")
-    .text("Large Unit Household Type by Housing Unity Type")
+    .text("Large Unit Household Type by Housing Unit Type")
 
   titles.append("text")
     .attr('x', '50%')

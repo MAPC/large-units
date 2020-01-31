@@ -10,7 +10,7 @@ d3.csv('/large-units/assets/data/b25041_bedrooms_per_unit_ct.csv')
       [-74.728, 38.167], // Southwest bound
       [-66.541, 46.032], // Northeast bound
     ],
-    style: "mapbox://styles/ihill/ck60ulxcv03621itc7x60pa9b/draft",
+    style: "mapbox://styles/ihill/ck62ok4dd0suv1imvxhizpng2",
     accessToken: "pk.eyJ1IjoiaWhpbGwiLCJhIjoiY2plZzUwMTRzMW45NjJxb2R2Z2thOWF1YiJ9.szIAeMS4c9YTgNsJeG36gg",
     hash: true
   });
@@ -59,6 +59,8 @@ d3.csv('/large-units/assets/data/b25041_bedrooms_per_unit_ct.csv')
     });
     map.moveLayer('tracts-choropleth', 'MAPC municipal borders');
     map.moveLayer('tracts-pattern', 'MAPC municipal borders');
+
+    console.log(map.getStyle().layers)
   });
 
 
