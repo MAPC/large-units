@@ -1,5 +1,5 @@
 d3.csv("/large-units/assets/data/overcrowded.csv").then((data) => {
-  const margin = {top: 80, right: 0, bottom: 25, left: 30}
+  const margin = {top: 80, right: 0, bottom: 35, left: 30}
   , width = 700
   , canvasHeight = 420
   , graphHeight = canvasHeight - margin.top - margin.bottom;
@@ -23,7 +23,7 @@ d3.csv("/large-units/assets/data/overcrowded.csv").then((data) => {
     .attr('y', '44')
     .attr('text-anchor', 'middle')
     .attr("class", "graph__subtitle")
-    .text("Study Area, 2012–2016")
+    .text("Metro Mayors Coalition Study Area, 2012–2016")
 
   const graph = svg.append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")

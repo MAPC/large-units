@@ -23,7 +23,7 @@ d3.csv("/large-units/assets/data/estimate_expected.csv").then((formattedData) =>
     .attr('y', '44')
     .attr('text-anchor', 'middle')
     .attr("class", "graph__subtitle")
-    .text("2016 Expected vs. Estimated")
+    .text("Metro Mayors Coalition Study Area 2016 Expected vs. Estimated")
 
   const graph = svg.append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")

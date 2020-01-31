@@ -39,7 +39,7 @@ d3.csv('/large-units/assets/data/largeunits-hhtype.csv').then((rawData) => {
     .attr('y', '44')
     .attr('text-anchor', 'middle')
     .attr('class', 'graph__subtitle')
-    .text('Study Area, 2012–2016');
+    .text('Metro Mayors Coalition Study Area, 2012–2016');
 
   const graph = svg.append('g')
     .attr('transform', `translate(${margin.left},${margin.top})`)
@@ -50,7 +50,7 @@ d3.csv('/large-units/assets/data/largeunits-hhtype.csv').then((rawData) => {
     .range([0, width - margin.right])
     .domain(rawData.map((d) => d.type))
     .round(true)
-    .padding(0.5);
+    .padding(0.3);
 
   const yScale = d3.scaleLinear()
     .range([graphHeight - margin.bottom, 0])
