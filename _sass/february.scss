@@ -3,43 +3,66 @@ body {
 }
 
 .map {
+  $map-height: 500px;
+  $map-width: 600px;
   &__container {
     @media only screen and (max-width: 400px) {
       height: 333px;
-      width: 400px;
+      width: $map-width - 200px;
     }
 
     @media only screen and (max-width: 300px) {
       height: 250px;
-      width: 300px;
+      width: $map-width - 300px;
     }
-    
     height: 500px;
-    width: 600px;
+    width: $map-width;
+  }
+
+  &__overlay {
+    background: rgba(255, 255, 255, .8);
+    border-radius: 3px;
+    bottom: 0;
+    font-family: Arial, sans-serif;
+    overflow: auto;
+    position: absolute;
+    right: 0;
+    z-index: 10;
   }
 
   &__title {
-    background: rgba(255,255,255,.9);
-    font-size: 1.5rem;
+    @media only screen and (max-width: 400px) {
+      font-size: 1rem;
+      height: 1.75rem;
+      width: 12.75rem;
+    }
     font-family: 'skolar-sans-latin', Helvetica, sans-serif;
+    font-size: 1.5rem;
     font-weight: bold;
-    margin: .5rem;
-    padding: 1rem;
+    height: 3rem;
+    left: 8px;
+    max-height: 3rem;
+    max-width: 18.75rem;
+    overflow: auto;
+    padding: .5rem;
+    top: 8px;
   }
 
   &__legend {
-    background: rgba(255,255,255,.9);
+    $legend-height: 168px;
+    $legend-width: 160px;
+    height: $legend-height + 10px;
+    left: $map-width - $legend-width - 16px;
     margin: .5rem;
+    top: 160px;
+    width: $legend-width;
     @media only screen and (max-width: 400px) {
-      display: none;
+      left: 0;
+      top: 333px;
     }
 
-    &--mobile {
-      @media only screen and (max-width: 400px) {
-        display: inline;
-      }
-      display: none;
-      width: 160px;
+    @media only screen and (max-width: 300px) {
+      top: 250px;
     }
   }
 }
@@ -48,26 +71,21 @@ body {
   @media only screen and (max-width: 899px) {
     width: 800px;
   }
-  
   @media only screen and (max-width: 799px) {
     width: 700px;
   }
-
   @media only screen and (max-width: 699px) {
     width: 600px;
   }
   @media only screen and (max-width: 599px) {
     width: 500px;
   }
-  
   @media only screen and (max-width: 499px) {
     width: 400px;
   }
-
   @media only screen and (max-width: 399px) {
     width: 300px;
   }
-
   &__title {
     font-family: 'skolar-sans-latin';
     font-size: 1.25rem;
@@ -87,9 +105,9 @@ body {
 
 .tooltip {
   background: #fff;
-  border: 0px;
+  border: 0;
   border-radius: 4px;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,.24);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .24);
   padding: 12px;
   pointer-events: none;
   position: absolute;
@@ -111,12 +129,12 @@ body {
 
 .xaxis__label,
 .yaxis__label {
-  font-size: .75rem;
   font-family: 'Montserrat';
+  font-size: .75rem;
 }
 
 .legend {
-  background: rgba(255,255,255,.9);
+  background: rgba(255, 255, 255, .9);
   margin: .5rem;
 
   &__item {
@@ -133,10 +151,6 @@ body {
   }
 }
 
-.mapboxgl-ctrl-top-right {
-  top: 180px!important;
-}
-
 .mapboxgl-popup {
-  z-index: 10;
+  z-index: 20;
 }
